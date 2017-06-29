@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>unicorn!</title>
+    <style type="text/css">
+    body {
+        margin: 0;
+        overflow: hidden;
+    }
+    
+    canvas {
+        background: black;
+    }
+    </style>
+</head>
+
+<body>
+    <canvas></canvas>
+    <script type="text/javascript">
+    var ww = window.innerWidth;
+    var wh = window.innerHeight;
+
+    var canvas = document.querySelector("canvas");
+    var ctx = canvas.getContext("2d");
+
+    canvas.width = ww;
+    canvas.height = wh;
+
+    function Dot(x, y) {
+        this.x = x;
+        this.y = y;
+        this.color = "hsl(" + (this.y / wh) * 360 + ",50%,50%)";
+        this.range = Math.random() * 80 + 50;
+    }
+
+    Dot.prototype.draw = function() {
+
+        var distance = Math.sqrt((mouse.x - this.x) * (mouse.x - this.x) + (mouse.y - this.y) * (mouse.y - this.y));
+        if (distance < this.range) {
+            ctx.strokeStyle = this.color;
+            ctx.lineWidth = 6;
+            ctx.beginPath();
+            ctx.moveTo(this.x, this.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.stroke();
+        }
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+        ctx.fill();
+    };
+
+    Dot.prototype.update = function(time) {
+        this.color = "hsl(" + (this.y + (time * 0.5)) + ",50%,50%)"
+    };
+
+    var dots = [];
+    var ratio = 50;
+    var cols = Math.floor(ww / ratio);
+    var rows = Math.floor(wh / ratio);
+    for (var y = 0; y < rows; y++) {
+        for (var x = 0; x < cols; x++) {
+            dots.push(new Dot(x * ratio, y * ratio));
+        }
+    }
+
+    function render(time) {
+
+        ctx.fillStyle = "rgba(0,0,0,0.03)";
+        ctx.fillRect(0, 0, ww, wh);
+
+        for (var i = 0; i < dots.length; i++) {
+            dots[i].update(time);
+            dots[i].draw();
+        }
+
+        requestAnimationFrame(render);
+    }
+
+    var angle = 0;
+    var mouse = {
+        x: 0,
+        y: 0
+    };
+    window.addEventListener("mousemove", function(e) {
+        var x = e.clientX;
+        var y = e.clientY;
+        mouse.x = x;
+        mouse.y = y;
+    });
+    canvas.addEventListener("touchmove", function(e) {
+        var x = e.touches[i].clientX;
+        var y = e.touches[i].clientY;
+    });
+
+    requestAnimationFrame(render);
+    </script>
+</body>
+
+</html>

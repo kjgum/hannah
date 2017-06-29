@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>calc!</title>
+    <style type="text/css">
+    @import url('https://fonts.googleapis.com/css?family=Shadows+Into+Light+Two');
+    html {
+        height: 100%;
+    }
+    
+    #calc {
+        align-items: center;
+        background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/518746/rainbow.png");
+        display: flex;
+        height: 95vh;
+        justify-content: center;
+        margin: 0;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+        background-attachment: fixed;
+        width: 100%;
+        height: 100%;
+    }
+    
+    #calc:before {
+        width: 100%;
+        height: 100%;
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        background-image: -moz-linear-gradient(top left, rgba(136, 255, 253, 0.60), rgba(238, 50, 216, 0.60));
+        background-image: -ms-linear-gradient(top left, rgba(136, 255, 253, 0.60), rgba(238, 50, 216, 0.60));
+        background-image: -webkit-linear-gradient(top left, rgba(136, 255, 253, 0.60), rgba(238, 50, 216, 0.60));
+        background-image: -o-linear-gradient(top left, rgba(136, 255, 253, 0.60), rgba(238, 50, 216, 0.60));
+        background-image: linear-gradient(to bottom right, rgba(136, 255, 253, 0.60), rgba(238, 50, 216, 0.60));
+        background-size: auto;
+    }
+    
+    img {
+        width: 150px;
+        height: 150px;
+        position: relative;
+        top: -360px;
+        left: 10px;
+    }
+    
+    .results {
+        box-sizing: border-box;
+        height: 220px;
+        padding: 20px 20px;
+    }
+    
+    .wrap {
+        background: #FEAC5E;
+        background: -webkit-linear-gradient(to bottom left, #4BC0C8, #C779D0, #FEAC5E);
+        background: linear-gradient(to bottom left, #4BC0C8, #C779D0, #FEAC5E);
+        border-radius: 20px;
+        box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.75);
+        height: 560px;
+        width: 360px;
+        position: absolute;
+    }
+    
+    .row {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 20px;
+    }
+    
+    .key {
+        background: #ff00cc;
+        background: -webkit-linear-gradient(to bottom, #333399, #ff00cc);
+        background: linear-gradient(to bottom, #333399, #ff00cc);
+        border-radius: 50%;
+        border: none;
+        color: white;
+        cursor: inherit;
+        display: inline-block;
+        font-family: 'Shadows Into Light Two', cursive;
+        font-size: 14px;
+        font-weight: bold;
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+        width: 60px;
+    }
+    
+    .key:hover {
+        box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.75);
+    }
+    
+    .key:focus {
+        outline: none;
+    }
+    
+    .results > * {
+        color: white;
+        font-family: 'Shadows Into Light Two', cursive;
+    }
+    
+    .results {
+        position: relative;
+    }
+    
+    #result {
+        bottom: 0;
+        font-size: 48px;
+        padding-right: 20px;
+        position: absolute;
+        right: 0;
+    }
+    </style>
+</head>
+
+<body>
+    <style type="text/css">
+    body,
+    a:hover {
+        cursor: url(http://cur.cursors-4u.net/nature/nat-10/nat922.ani), url(http://cur.cursors-4u.net/nature/nat-10/nat922.png), progress !important;
+    }
+    </style>
+
+    <body id="calc">
+        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/518746/unicorn-animal-fantasy-by-Vexels.svg">
+        <div class="wrap">
+            <div class="calc">
+                <div class="results">
+                    <div class="accum">
+                        <p id="num-a"></p>
+                        <p id="operator"></p>
+                        <p id="num-b"></p>
+                    </div>
+                    <p class="res" id="result"></p>
+                </div>
+                <div class="keypad">
+                    <div class="row">
+                        <button class="key" data-value="7" data-action="number">7</button>
+                        <button class="key" data-value="8" data-action="number">8</button>
+                        <button class="key" data-value="9" data-action="number">9</button>
+                        <button class="key" data-value="+" data-action="operation">+</button>
+                    </div>
+                    <div class="row">
+                        <button class="key" data-value="4" data-action="number">4</button>
+                        <button class="key" data-value="5" data-action="number">5</button>
+                        <button class="key" data-value="6" data-action="number">6</button>
+                        <button class="key" data-value="-" data-action="operation">-</button>
+                    </div>
+                    <div class="row">
+                        <button class="key" data-value="1" data-action="number">1</button>
+                        <button class="key" data-value="2" data-action="number">2</button>
+                        <button class="key" data-value="3" data-action="number">3</button>
+                        <button class="key" data-value="*" data-action="operation">*</button>
+                    </div>
+                    <div class="row">
+                        <button class="key" data-value="0" data-action="number">0</button>
+                        <button class="key" data-value="c" data-action="operation">c</button>
+                        <button class="key" data-value="/" data-action="operation">/</button>
+                        <button class="key" data-value="=" data-action="calculate">=</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+       // to generate state
+  function generateState(operation, numA, numB, result) {
+    var newState = {
+      numA: numA || 0,
+      numB: numB || 0,
+      operation: operation,
+      result: result
+    };
+    return newState;
+  }
+
+  // To add new number to calculator state
+  function setNumber(state, newValue) {
+    if (state.operation == null) {
+      return generateState(state.operation, state.numA += newValue, state.numB, state.result);
+    } else { // if operator is present, set as numB
+      return generateState(state.operation, state.numA, state.numB += newValue, state.result);
+    }
+  }
+
+  // To set an operator
+  function setOperator(state, newValue) {
+    if (newValue == 'c') { // if operator is clear, reset state
+      return generateState();
+    }
+    return generateState(newValue, state.numA, state.numB, state.result);
+  }
+
+  // Generate result
+  function calculate(state, newValue) {
+    var numA = parseInt(state.numA);
+    var numB = parseInt(state.numB);
+    var operation = state.operation;
+    var result;
+    if (numA == NaN || numB == NaN) {
+      return generateState(null, null, null, 'Invalid');
+    }
+    switch (operation) {
+      case '+':
+        result = numA + numB;
+        break;
+      case '-':
+        result = numA - numB;
+        break;
+      case '*':
+        result = numA * numB;
+        break;
+      case '/':
+        result = numA / numB;
+        break;
+      default:
+        result = null;
+    }
+    return generateState(null, result, null, result);
+  }
+
+  function evaluate(state, newAction, newValue) {
+    switch (newAction) {
+      case 'number':
+        return setNumber(state, newValue);
+      case 'operation':
+        return setOperator(state, newValue);
+      case 'calculate':
+        return calculate(state, newValue);
+      default: // click is elsewhere on the board
+        return generateState(state.operator, state.numA, state.numB, state.result);
+    }
+  }
+
+  function beautify(num) {
+    var n = num
+    if (n == undefined || n == NaN) {
+      return 0;
+    }
+    return parseInt(num);
+  }
+
+  function printResult(state) {
+    elemA.innerHTML = parseInt(state.numA);
+
+    // To avoid showing numB as zero
+    var numB = parseInt(state.numB);
+    if (!numB) {
+      numB = null;
+    }
+    elemB.innerHTML = numB;
+    elemOperator.innerHTML = state.operation || null;
+    elemResult.innerHTML = beautify(state.result);
+  }
+
+  function handleClick(event) {
+    var target = event.target;
+    var action = target.getAttribute('data-action');
+    var value = target.getAttribute('data-value');
+    calculatorState = evaluate(calculatorState, action, value);
+    printResult(calculatorState);
+  }
+
+  var calculator = document.getElementById('calc');
+  var elemA = document.getElementById('num-a');
+  var elemB = document.getElementById('num-b');
+  var elemOperator = document.getElementById('operator');
+  var elemResult = document.getElementById('result');
+  var calculatorState = generateState();
+
+  calculator.addEventListener('click', handleClick);s
+    </script>
+</body>
+
+</html>
