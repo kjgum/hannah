@@ -23,6 +23,18 @@ app.get('/fly', function(req, res) {
 app.get('/draw', function(req, res) {
     res.sendFile(path.join(__dirname, 'unicorndraw.html'));
 })
+app.get('/snake', function(req, res) {
+    res.sendFile(path.join(__dirname, 'snake.html'));
+})
+app.get('/simon', function(req, res) {
+    res.sendFile(path.join(__dirname, 'simon.html'));
+})
+app.get('/target', function(req, res) {
+    res.sendFile(path.join(__dirname, 'target.html'));
+})
+app.get('/cage', function(req, res) {
+    res.sendFile(path.join(__dirname, 'cage.html'));
+})
 // app.get('/resume', function(req, res) {
 //     res.sendFile(path.join(__dirname, ''));
 // })
