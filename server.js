@@ -35,6 +35,9 @@ app.get('/target', function(req, res) {
 app.get('/cage', function(req, res) {
     res.sendFile(path.join(__dirname, 'cage.html'));
 })
+app.get('/letters', function(req, res) {
+    res.sendFile(path.join(__dirname, 'letters.html'));
+})
 // app.get('/resume', function(req, res) {
 //     res.sendFile(path.join(__dirname, ''));
 // })
